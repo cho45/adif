@@ -1,6 +1,8 @@
-# Adif
+# ADIF
 
-TODO: Write a gem description
+This is ADIF (Amateur Data Interchange Format) Parser/Writer library for Ruby.
+
+ADIF is an open standard for exchange of data between ham radio software packages available from different vendors.
 
 ## Installation
 
@@ -18,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+[./spec/adif_spec.rb](./spec/adif_spec.rb )
 
 ## Contributing
 
