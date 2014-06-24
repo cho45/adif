@@ -197,3 +197,47 @@ describe ADIF do
 		p adif
 	end
 end
+
+describe ADIF::Writer do
+
+	context "v2" do
+		io = StringIO.new
+		writer = ADIF::Writer.new(2, io)
+
+		writer << ADIF::Header.new({
+			:programid => 'ruby-adif',
+			:userdef   => [{ :type => 'E', :enum => '{S,M,L}' }, 'SWEATERSIZE'],
+		})
+
+		writer << ADIF::Record.new({
+			:call => 'JH1UMV',
+			:qso_date => '20140624',
+			:time_on => '230000',
+		})
+
+		writer.finish
+
+		puts io.string
+	end
+
+
+	context "v3" do
+		io = StringIO.new
+		writer = ADIF::Writer.new(3, io)
+
+		writer << ADIF::Header.new({
+			:programid => 'ruby-adif',
+			:userdef   => [{ :type => 'E', :enum => '{S,M,L}' }, 'SWEATERSIZE'],
+		})
+
+		writer << ADIF::Record.new({
+			:call => 'JH1UMV',
+			:qso_date => '20140624',
+			:time_on => '230000',
+		})
+
+		writer.finish
+
+		puts io.string
+	end
+end
