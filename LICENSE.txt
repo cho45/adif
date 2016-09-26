@@ -1,4 +1,4 @@
-Copyright (c) 2014 cho45
+Copyright (c) 2014 cho45, 2016 dj3ei
 
 MIT License
 

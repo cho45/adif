@@ -200,44 +200,53 @@ end
 
 describe ADIF::Writer do
 
-	context "v2" do
-		io = StringIO.new
-		writer = ADIF::Writer.new(2, io)
+	context "adi" do
+		it 'writes an adi stream' do
+			io = StringIO.new
+			writer = ADIF::Writer.new(io, :adi)
+			
+			writer << ADIF::Header.new({
+				:programid => 'ruby-adif',
+				:userdef   => [{ :type => 'E', :enum => '{S,M,L}' }, 'SWEATERSIZE'],
+			})
+			
+			writer << ADIF::Record.new({
+				:call => 'JH1UMV',
+				:qso_date => '20140624',
+				:time_on => '230000',
+			})
+			
+			writer.finish
 
-		writer << ADIF::Header.new({
-			:programid => 'ruby-adif',
-			:userdef   => [{ :type => 'E', :enum => '{S,M,L}' }, 'SWEATERSIZE'],
-		})
-
-		writer << ADIF::Record.new({
-			:call => 'JH1UMV',
-			:qso_date => '20140624',
-			:time_on => '230000',
-		})
-
-		writer.finish
-
-		puts io.string
+			readback = ADIF.parse_adi(io.string)
+			expect(readback.header[:programid]).to eq 'ruby-adif'
+			expect(readback.header[:userdef]).to eq 'SWEATERSIZE'
+			expect(readback.records.size).to be 1
+			expect(readback.records[0][:call]).to eq 'JH1UMV'
+		end
 	end
+	
+	context "adx" do
+		it 'writes an adx stream' do
+			io = StringIO.new
+			writer = ADIF::Writer.new(io, :adx)
+			
+			writer << ADIF::Header.new({
+				:programid => 'ruby-adif',
+				:userdef   => [{ :type => 'E', :enum => '{S,M,L}' }, 'SWEATERSIZE'],
+			})
+			
+			writer << ADIF::Record.new({
+				:call => 'JH1UMV',
+				:qso_date => '20140624',
+				:time_on => '230000',
+			})
+        	
+			writer.finish
 
-
-	context "v3" do
-		io = StringIO.new
-		writer = ADIF::Writer.new(3, io)
-
-		writer << ADIF::Header.new({
-			:programid => 'ruby-adif',
-			:userdef   => [{ :type => 'E', :enum => '{S,M,L}' }, 'SWEATERSIZE'],
-		})
-
-		writer << ADIF::Record.new({
-			:call => 'JH1UMV',
-			:qso_date => '20140624',
-			:time_on => '230000',
-		})
-
-		writer.finish
-
-		puts io.string
+			# This should work, but does not presently.
+			# It is expected https://github.com/cho45/adif/issues/2 will fix this.
+			# readback = ADIF.parse_adx(io.string)
+		end
 	end
 end
