@@ -6,17 +6,20 @@ ADIF is an open standard for exchange of data between ham radio software package
 
 ## Installation
 
-Add this line to your application's Gemfile:
+This gem is not available via [rubygems.org](https://rubygems.org), but you can easily build it yourself:
+
+    git clone https://github.com/cho45/adif.git
+    cd adif
+    gem build adif.gemspec
+    gem install adif
+
+To use it, add this line to your application's Gemfile:
 
     gem 'adif'
 
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install adif
 
 ## Usage
 
